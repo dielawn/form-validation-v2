@@ -89,10 +89,13 @@ passwordInput.type = 'password'
 passwordInput.placeholder = 'Password'
 passwordInput.setAttribute('required', 'true')
 //password requiements
-const passwordRequirements = ['lowercase', 'uppercase', 'number', 'minLength', 'specialCh']
-
+const passwordRequirements = ['lowercase', 'uppercase', 'number', 'specialCh', 'minLength',]
+const errorDiv = new SuperElement(passwordDiv, 'div', '', 'pwdErrorDiv', 'pwdErrorDiv').element
+errorDiv.classList.add('hide')
 passwordInput.onfocus = function() {
+    
     passwordRequirements.map(item => {
+    errorDiv.classList.remove('hide')
     console.log(item)
     let content = item
     if (item === 'minLength') {
@@ -101,8 +104,9 @@ passwordInput.onfocus = function() {
     if (item === 'specialCh') {
         content = '!@#$%^&*'
     }
-    const requiredElem = new SuperElement(passwordDiv, 'p', content, 'passwordMsg', item).element
+    const requiredElem = new SuperElement(errorDiv, 'p', content, 'passwordMsg', item).element
     requiredElem.classList.add('colorRed')
+    checkRequired(passwordInput)
 })
 
 }
@@ -110,10 +114,16 @@ passwordInput.addEventListener('input', function() {
     let requiredTxt = document.querySelectorAll('.passwordMsg');
     for (let i = 0; i < requiredTxt.length; i++) {
       checkRequired(passwordInput)
+      if (checkRequired(passwordInput)) {
+        errorDiv.classList.add('hide')
+      } else {
+        errorDiv.classList.remove('hide')
+      }
     }
-  });
+  })
 
 passwordInput.onblur = function() {
+    errorDiv.classList.add('hide')
     let passwordMsgs = document.querySelectorAll('.passwordMsg')
     for (let i = 0; i < passwordMsgs.length; i++) {
         passwordMsgs[i].remove()
@@ -148,49 +158,82 @@ submitBtn.addEventListener('click', (e) => {
 
 }
 
-function hideTxt(el) {
-    el.classList.add('hide')
+function hideTxt(el, requiredChar) {
+    if (el) {
+        if (requiredChar) {
+            el.classList.add('hide')
+        } else {
+            el.classList.remove('hide')
+        }        
+    }    
 }
 
+
+
+
+
 function checkRequired(password) {
-  let minLength = false
-  let minNumber = false
-  let uppercase = false
-  let lowercase = false
-  let specialCh = false
+
+    let minLengthTxt = document.getElementById('minLength')
+    let  minNumberTxt = document.getElementById('number')
+    let capTxt = document.getElementById('uppercase')
+    let lowerTxt = document.getElementById('lowercase')
+    let spclCharTxt = document.getElementById('specialCh')
+
+    let minLength 
+    let minNumber
+    let uppercase
+    let lowercase
+    let specialCh
+
     if(password.value.length >= 8){
         minLength = true
-        let minLengthTxt = document.getElementById('minLength')
-        hideTxt(minLengthTxt)
-    } 
-    const numbers = /[0-9]/g;
+    } else {
+        minLength = false       
+    }
+    const numbers = /[0-9]/g;    
     if (password.value.match(numbers)){
         minNumber = true
-        let  minNumberTxt = document.getElementById('number')
-        hideTxt(minNumberTxt)
+    } else {
+        minNumber = false
     } 
-    const capitalLetters = /[A-Z]/g;
+    const capitalLetters = /[A-Z]/g;    
     if(password.value.match(capitalLetters)) {
         uppercase = true
-        let capTxt = document.getElementById('uppercase')
-        hideTxt(capTxt)
-    } 
-    const letters = /[a-z]/g;
+    } else {
+        uppercase = false
+    }
+    const letters = /[a-z]/g;    
     if (password.value.match(letters)){
         lowercase = true
-        let lowerTxt = document.getElementById('lowercase')
-        hideTxt(lowerTxt)
-    } 
-    const characters = /[!@#$%^&*]/;
+    } else {
+        lowercase = false
+    }
+    const characters = /[!@#$%^&*]/    
     if (password.value.match(characters)) {
         specialCh = true    
-        let spclCharTxt = document.getElementById('specialCh')
-        hideTxt(spclCharTxt)
-    } 
-    console.log(minLength, minNumber, uppercase, lowercase, specialCh)
- return minLength, minNumber, uppercase, lowercase, specialCh
+    } else {
+        specialCh = false
+    }
+    
+    hideTxt(minLengthTxt, minLength)
+    hideTxt(minNumberTxt, minNumber)
+    hideTxt(capTxt, uppercase)
+    hideTxt(lowerTxt, lowercase)
+    hideTxt(spclCharTxt, specialCh)
+    
+    let requirementsFulfilled
+    if (minLength && minNumber && uppercase && lowercase && specialCh) {
+        requirementsFulfilled = true
+    } else {
+        requirementsFulfilled = false
+    }
+    console.log(minLength, minNumber, uppercase, lowercase, specialCh, 'All Req ', requirementsFulfilled)
+    return requirementsFulfilled
+ 
 }
 
 
 
 renderForm()
+

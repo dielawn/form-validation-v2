@@ -53,3 +53,15 @@
 .hide {
     display: none;
 }
+.passwordMsg {
+   
+   font-size: .8rem;
+   padding: 2px;
+   
+}
+.pwdErrorDiv {
+    padding: 5px;
+    grid-column: 2/3;
+    background-color: aliceblue;
+    border-radius: 7px;
+}
