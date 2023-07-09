@@ -1,4 +1,4 @@
-
+// const cities = require('cities');
 const containerDiv = document.getElementById('container')
 
 class SuperElement {
@@ -21,77 +21,123 @@ class SuperElement {
 //error div
 const errorDiv = new SuperElement(containerDiv, 'div', '', 'errorMsg', 'errorMsg').element
 
-const renderForm = () => {
-//form
-const form = new SuperElement(containerDiv, 'form', '', 'form', 'form').element
-form.action = '/'
-form.method = 'GET'
+function checkForContent(input, boolean) {
+    if (input.value === '' || input.value == null) {
+        boolean = false
+    } else {
+        boolean = true
+    }
+    input.onfocus = function() {
+        checkOnBlur(input)
+        
+    }
+    console.log(boolean)
+    return boolean
+}
+function renderStatusStyle(input, boolean) {
+   
+    input.addEventListener('input', () => {
+        if (!checkForContent(input, boolean)) {
+            input.classList.add('redBorder')
+        } else {
+            input.classList.remove('redBorder')
+        }
+        
+    })
+    input.onfocus = function() {
+        if (!checkForContent(input, boolean)) {
+            input.classList.add('redBorder')
+        } else {
+            input.classList.remove('redBorder')
+        }
+        
+    }
+}
+let nameIsValid
+function renderName() {
 
-//name input
-const nameDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const nameLabel = new SuperElement(nameDiv, 'label', 'Name:', 'formLabel', 'nameLabel').element
-nameLabel.htmlFor = 'name'
-const nameInput = new SuperElement(nameDiv, 'input', '', 'formInput', 'nameInput').element
-nameInput.name = 'name'
-nameInput.type = 'text'
-nameInput.setAttribute('required', 'true')
-nameInput.placeholder = 'Full Name'
+    const nameDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
+    const nameLabel = new SuperElement(nameDiv, 'label', 'Name:', 'formLabel', 'nameLabel').element
+    nameLabel.htmlFor = 'name'
+    const nameInput = new SuperElement(nameDiv, 'input', '', 'formInput', 'nameInput').element
+    nameInput.name = 'name'
+    nameInput.type = 'text'
+    nameInput.setAttribute('required', 'true')
+    nameInput.placeholder = 'Full Name'
 
-//email
-const emailDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const emailLabel = new SuperElement(emailDiv, 'label', 'Email:', 'formLabel', 'emailLabel').element
-emailLabel.htmlFor = 'email'
-const emailInput = new SuperElement(emailDiv, 'input', '', 'formInput', 'emailInput').element
-emailInput.name = 'email'
-emailInput.type = 'email'
-emailInput.setAttribute('required', 'true')
-emailInput.placeholder = 'Email'
+    //validate input content
+    
+    nameIsValid = renderStatusStyle(nameInput, nameIsValid)
+    return nameIsValid
+}
+let emailIsValid
+function renderEmail() {
+    const emailDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
+    const emailLabel = new SuperElement(emailDiv, 'label', 'Email:', 'formLabel', 'emailLabel').element
+    emailLabel.htmlFor = 'email'
+    const emailInput = new SuperElement(emailDiv, 'input', '', 'formInput', 'emailInput').element
+    emailInput.name = 'email'
+    emailInput.type = 'email'
+    emailInput.setAttribute('required', 'true')
+    emailInput.placeholder = 'Email'
 
-//address
-const stAddressDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const stAddressLabel = new SuperElement(stAddressDiv, 'label', 'Address: ', 'formLabel', 'stAddressLabel').element
-stAddressLabel.htmlFor = 'stAddress'
-const stAddressInput = new SuperElement(stAddressDiv, 'input', '', 'formInput', 'stAddressInput').element
-stAddressInput.name = 'stAddress'
-stAddressInput.type = 'text'
-stAddressInput.placeholder = '123 Example St.'
-//city
-const cityAddressDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const cityLabel = new SuperElement(cityAddressDiv, 'label', 'City:', 'formLabel', 'cityLabel').element
-cityLabel.htmlFor = 'city'
-const cityInput = new SuperElement(cityAddressDiv, 'input', '', 'formInput', 'cityInput').element
-cityInput.name = 'city'
-cityInput.type = 'text'
-cityInput.placeholder = 'Atlantis'
-//state
-const stateAddressDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const stateLabel = new SuperElement(stateAddressDiv, 'label', 'State:', 'formLabel', 'stateLabel').element
-stateLabel.htmlFor = 'state'
-const stateInput = new SuperElement(stateAddressDiv, 'input', '', 'formInput', 'stateInput').element
-stateInput.name = 'state'
-stateInput.type = 'text'
-stateInput.placeholder = 'State'
-//zip
-const zipDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const zipLabel = new SuperElement(zipDiv, 'label', 'Zip Code:', 'formLabel', 'zipLabel').element
-zipLabel.htmlFor = 'zip'
-const zipInput = new SuperElement(zipDiv, 'input', '', 'formInput', 'zipInput').element
-zipInput.name = 'zip'
-zipInput.type = 'text'
-zipInput.placeholder = '90210'
-//password
+    //validate input content
+    
+    
+    return emailIsValid
+}
+
+function renderAddress() {
+    const stAddressDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
+    const stAddressLabel = new SuperElement(stAddressDiv, 'label', 'Address: ', 'formLabel', 'stAddressLabel').element
+    stAddressLabel.htmlFor = 'stAddress'
+    const stAddressInput = new SuperElement(stAddressDiv, 'input', '', 'formInput', 'stAddressInput').element
+    stAddressInput.name = 'stAddress'
+    stAddressInput.type = 'text'
+    stAddressInput.placeholder = '123 Example St.'
+    //city
+    const cityAddressDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
+    const cityLabel = new SuperElement(cityAddressDiv, 'label', 'City:', 'formLabel', 'cityLabel').element
+    cityLabel.htmlFor = 'city'
+    const cityInput = new SuperElement(cityAddressDiv, 'input', '', 'formInput', 'cityInput').element
+    cityInput.name = 'city'
+    cityInput.type = 'text'
+    cityInput.placeholder = 'Atlantis'
+    //state
+    const stateAddressDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
+    const stateLabel = new SuperElement(stateAddressDiv, 'label', 'State:', 'formLabel', 'stateLabel').element
+    stateLabel.htmlFor = 'state'
+    const stateInput = new SuperElement(stateAddressDiv, 'input', '', 'formInput', 'stateInput').element
+    stateInput.name = 'state'
+    stateInput.type = 'text'
+    stateInput.placeholder = 'State'
+    //zip
+    const zipDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
+    const zipLabel = new SuperElement(zipDiv, 'label', 'Zip Code:', 'formLabel', 'zipLabel').element
+    zipLabel.htmlFor = 'zip'
+    const zipInput = new SuperElement(zipDiv, 'input', '', 'formInput', 'zipInput').element
+    zipInput.name = 'zip'
+    zipInput.type = 'text'
+    zipInput.placeholder = '90210'
+}
+
+function renderPassword() {
+    //password
 const passwordDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
-const passwordLabel = new SuperElement(passwordDiv, 'label', 'Password:', 'formLabel', 'passwordInput').element
+const passwordLabel = new SuperElement(passwordDiv, 'label', 'Password:', 'formLabel', 'passwordLabel').element
 passwordLabel.htmlFor = 'password'
 const passwordInput = new SuperElement(passwordDiv, 'input', '', 'formInput', 'passwordInput').element
 passwordInput.name = 'password'
 passwordInput.type = 'password'
 passwordInput.placeholder = 'Password'
 passwordInput.setAttribute('required', 'true')
-//password requiements
-const passwordRequirements = ['lowercase', 'uppercase', 'number', 'specialCh', 'minLength',]
-const errorDiv = new SuperElement(passwordDiv, 'div', 'Required:', 'pwdErrorDiv', 'pwdErrorDiv').element
-errorDiv.classList.add('hide')
+ //password requiements
+
+ const passwordRequirements = ['lowercase', 'uppercase', 'number', 'specialCh', 'minLength',]
+ const errorDiv = new SuperElement(passwordDiv, 'div', 'Required:', 'pwdErrorDiv', 'pwdErrorDiv').element
+ errorDiv.classList.add('hide')
+
+ //event listeners
 passwordInput.onfocus = function() {
     if (!checkRequired(passwordInput)) {
         errorDiv.classList.remove('hide')
@@ -110,34 +156,36 @@ passwordInput.onfocus = function() {
     requiredElem.classList.add('colorRed')
     checkRequired(passwordInput)
 })
-
 }
-passwordInput.addEventListener('input', function() {
-    let requiredTxt = document.querySelectorAll('.passwordMsg');
-    for (let i = 0; i < requiredTxt.length; i++) {
-      checkRequired(passwordInput)
-      if (checkRequired(passwordInput)) {
-        errorDiv.classList.add('hide')
-      } else {
-        errorDiv.classList.remove('hide')
-      }
-    }
-  })
 
-passwordInput.onblur = function() {
-    errorDiv.classList.add('hide')
-    if (!checkRequired(passwordInput)) {
-        passwordInput.classList.add('redBorder')
-    } else {
-        passwordInput.classList.remove('redBorder')
-    }
+    passwordInput.addEventListener('input', function() {
+        let requiredTxt = document.querySelectorAll('.passwordMsg');
+        for (let i = 0; i < requiredTxt.length; i++) {
+            checkRequired(passwordInput)
+            if (checkRequired(passwordInput)) {
+                errorDiv.classList.add('hide')
+            } else {
+                errorDiv.classList.remove('hide')
+            }
+        }
+    })
+
+    passwordInput.onblur = function() {
+        errorDiv.classList.add('hide')
+        if (!checkRequired(passwordInput)) {
+            passwordInput.classList.add('redBorder')
+            } else {
+            passwordInput.classList.remove('redBorder')
+        }
     let passwordMsgs = document.querySelectorAll('.passwordMsg')
     for (let i = 0; i < passwordMsgs.length; i++) {
         passwordMsgs[i].remove()
     }
+  }
+  renderPswdConfirm(passwordInput)
 }
-
-//password confirmation
+function renderPswdConfirm(password) {
+    //password confirmation
 const confirmPswdDiv = new SuperElement(form, 'div', '', 'formDiv', '').element
 const confirmPswdLabel = new SuperElement(confirmPswdDiv, 'label', 'Confirm: ', 'formLabel', 'confirmPswdLabel').element
 confirmPswdLabel.htmlFor = 'confirmPswd'
@@ -146,49 +194,86 @@ confirmPswdInput.name = 'confirmPswd'
 confirmPswdInput.type = 'password'
 confirmPswdInput.placeholder = 'Confirm password'
 confirmPswdInput.setAttribute('required', 'true')
-const errorConfirmPswd = new SuperElement(passwordDiv, 'div', 'Passwords not a match', 'pwdErrorDiv', 'pwdErrorDiv').element
+const errorConfirmPswd = new SuperElement(confirmPswdDiv, 'div', 'Passwords not a match', 'pwdErrorDiv', 'pwdErrorDiv').element
 errorConfirmPswd.classList.add('hide')
 errorConfirmPswd.classList.add('colorRed')
 
 confirmPswdInput.onfocus = function() {
-    if (!matchPassword(passwordInput, confirmPswdInput)) {
+    if (!matchPassword(password, confirmPswdInput)) {
         errorConfirmPswd.classList.remove('hide')
     } else {
         errorConfirmPswd.classList.add('hide')
     }
 }
 confirmPswdInput.addEventListener('input', function() {
-    if (matchPassword(passwordInput, confirmPswdInput)) {
+    if (matchPassword(password, confirmPswdInput)) {
         errorConfirmPswd.classList.add('hide')
     } else {
         errorConfirmPswd.classList.remove('hide')
     }
 })
 confirmPswdInput.onblur = function() {
-    if (!matchPassword(passwordInput, confirmPswdInput)) {
+    if (!matchPassword(password, confirmPswdInput)) {
         confirmPswdInput.classList.add('redBorder')
     } else {
         confirmPswdInput.classList.remove('redBorder')
     }
     errorConfirmPswd.classList.add('hide')
 }
-//submit button
+}
 
-const submitBtn = new SuperElement(form, 'button', 'Submit', 'formBtn', 'submitBtn').element
+const renderForm = () => {
+    let messages = []
+    //form
+    const form = new SuperElement(containerDiv, 'form', '', 'form', 'form').element
+    form.action = '/'
+    form.method = 'GET'
 
-submitBtn.addEventListener('click', (e) => {
-    let message = []
-    //check name
-    if (nameInput.value === '' || nameInput.value == null) {
-        message.push('Name is required')
+    //render inputs and labels
+
+    renderName()
+    renderEmail()
+    renderAddress()
+    renderPassword()
+    let pswdValid 
+    let nameIsValid  
+    let emailIsValid 
+    //submit button
+    const submitBtn = new SuperElement(form, 'button', 'Submit', 'formBtn', 'submitBtn').element
+    if (messages.length > 0) {
+    checkForContent(nameInput, nameIsValid)
     }
-    //check email
-    if (message.length > 0 ) {
-        e.preventDefault()
-        errorDiv.innerText = message.join(', ')
-    }
-})
+    submitBtn.addEventListener('click', (e) => {
+        messages.length = 0
+        const prevError = document.getElementById('sbmtError')
+        if (prevError) {
+            prevError.remove()
+        }
 
+        const errorDiv = new SuperElement(form, 'div', '', 'errorDiv', 'sbmtError').element
+        nameIsValid = checkForContent(nameInput, nameIsValid)
+        emailIsValid = checkForContent(emailInput, emailIsValid)
+        const passwordInput = document.getElementById('passwordInput')
+        pswdValid = checkRequired(passwordInput)
+        console.log(checkRequired(passwordInput))
+        //check name
+      console.log(nameIsValid, emailIsValid, pswdValid)
+        if (!nameIsValid) {
+            messages.push('Name field empty')
+        }
+        if (!emailIsValid) {
+            messages.push('Email field empty')
+        }    
+        if (!pswdValid) {
+            messages.push('Password or confirm is not valid')
+        }
+        //check email
+        if (messages.length > 0 ) {
+            e.preventDefault()
+            errorDiv.innerText = messages.join(', ')
+        }
+        console.log(messages);
+    })
 }
 
 function hideTxt(el, requiredChar) {
@@ -201,8 +286,16 @@ function hideTxt(el, requiredChar) {
     }    
 }
 
+const checkOnBlur = (input) => {
+    if (input.value == '') {
+        input.classList.add('redBorder')
+    } else {
+        input.classList.remove('redBorder')
+    }
+    
+}
 
-function checkRequired(password) {
+function checkRequired(password) {   
 
     let minLengthTxt = document.getElementById('minLength')
     let minNumberTxt = document.getElementById('number')
@@ -252,14 +345,13 @@ function checkRequired(password) {
     hideTxt(lowerTxt, lowercase)
     hideTxt(spclCharTxt, specialCh)
     
-    let requirementsFulfilled
     if (minLength && minNumber && uppercase && lowercase && specialCh) {
-        requirementsFulfilled = true
+        pswdValid = true
     } else {
-        requirementsFulfilled = false
+        pswdValid = false
     }
-    console.log(minLength, minNumber, uppercase, lowercase, specialCh, 'All Req ', requirementsFulfilled)
-    return requirementsFulfilled
+    console.log(minLength, minNumber, uppercase, lowercase, specialCh, 'All Req ', pswdValid)
+    return pswdValid
  
 }
 
@@ -268,18 +360,46 @@ function checkRequired(password) {
 function matchPassword(password, confirmPwd) {    
     let isMatch
     if(password.value == confirmPwd.value && password.value != ''){
-        isMatch = true;
-        console.log(`Password =${password.value} Confirm = ${confirmPwd.value}`)
-        
+        isMatch = true        
     }
     if(password.value != confirmPwd.value){
-        isMatch = false;
-        console.log('no match')
-        console.log(`Password =${password.value} Confirm = ${confirmPwd.value}`)
+        isMatch = false
     }
     return isMatch
 }
 
+// // Get an array of all states
+// const states = cities.states;
+
+// // Populate the state dropdown
+// const stateSelect = document.getElementById("stateSelect");
+// states.forEach(function(state) {
+//   const option = document.createElement("option");
+//   option.value = state;
+//   option.text = state;
+//   stateSelect.appendChild(option);
+// });
+
+// // Function to populate cities based on the selected state
+// function populateCities() {
+//   const stateSelect = document.getElementById("stateSelect");
+//   const citySelect = document.getElementById("citySelect");
+//   const selectedState = stateSelect.value;
+
+//   // Clear previous options
+//   citySelect.innerHTML = '<option value="">Select City</option>';
+
+//   // Get an array of cities for the selected state
+//   const citiesInState = cities.findByState(selectedState);
+  
+//   // Populate cities based on the selected state
+//   citiesInState.forEach(function(city) {
+//     const option = document.createElement("option");
+//     option.value = city.name;
+//     option.text = city.name;
+//     citySelect.appendChild(option);
+//   });
+// }
 
 renderForm()
 
