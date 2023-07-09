@@ -90,12 +90,14 @@ passwordInput.placeholder = 'Password'
 passwordInput.setAttribute('required', 'true')
 //password requiements
 const passwordRequirements = ['lowercase', 'uppercase', 'number', 'specialCh', 'minLength',]
-const errorDiv = new SuperElement(passwordDiv, 'div', '', 'pwdErrorDiv', 'pwdErrorDiv').element
+const errorDiv = new SuperElement(passwordDiv, 'div', 'Required:', 'pwdErrorDiv', 'pwdErrorDiv').element
 errorDiv.classList.add('hide')
 passwordInput.onfocus = function() {
-    
+    if (!checkRequired(passwordInput)) {
+        errorDiv.classList.remove('hide')
+    }
     passwordRequirements.map(item => {
-    errorDiv.classList.remove('hide')
+    
     console.log(item)
     let content = item
     if (item === 'minLength') {
@@ -124,6 +126,11 @@ passwordInput.addEventListener('input', function() {
 
 passwordInput.onblur = function() {
     errorDiv.classList.add('hide')
+    if (!checkRequired(passwordInput)) {
+        passwordInput.classList.add('redBorder')
+    } else {
+        passwordInput.classList.remove('redBorder')
+    }
     let passwordMsgs = document.querySelectorAll('.passwordMsg')
     for (let i = 0; i < passwordMsgs.length; i++) {
         passwordMsgs[i].remove()
@@ -139,6 +146,32 @@ confirmPswdInput.name = 'confirmPswd'
 confirmPswdInput.type = 'password'
 confirmPswdInput.placeholder = 'Confirm password'
 confirmPswdInput.setAttribute('required', 'true')
+const errorConfirmPswd = new SuperElement(passwordDiv, 'div', 'Passwords not a match', 'pwdErrorDiv', 'pwdErrorDiv').element
+errorConfirmPswd.classList.add('hide')
+errorConfirmPswd.classList.add('colorRed')
+
+confirmPswdInput.onfocus = function() {
+    if (!matchPassword(passwordInput, confirmPswdInput)) {
+        errorConfirmPswd.classList.remove('hide')
+    } else {
+        errorConfirmPswd.classList.add('hide')
+    }
+}
+confirmPswdInput.addEventListener('input', function() {
+    if (matchPassword(passwordInput, confirmPswdInput)) {
+        errorConfirmPswd.classList.add('hide')
+    } else {
+        errorConfirmPswd.classList.remove('hide')
+    }
+})
+confirmPswdInput.onblur = function() {
+    if (!matchPassword(passwordInput, confirmPswdInput)) {
+        confirmPswdInput.classList.add('redBorder')
+    } else {
+        confirmPswdInput.classList.remove('redBorder')
+    }
+    errorConfirmPswd.classList.add('hide')
+}
 //submit button
 
 const submitBtn = new SuperElement(form, 'button', 'Submit', 'formBtn', 'submitBtn').element
@@ -169,13 +202,10 @@ function hideTxt(el, requiredChar) {
 }
 
 
-
-
-
 function checkRequired(password) {
 
     let minLengthTxt = document.getElementById('minLength')
-    let  minNumberTxt = document.getElementById('number')
+    let minNumberTxt = document.getElementById('number')
     let capTxt = document.getElementById('uppercase')
     let lowerTxt = document.getElementById('lowercase')
     let spclCharTxt = document.getElementById('specialCh')
@@ -233,6 +263,22 @@ function checkRequired(password) {
  
 }
 
+
+
+function matchPassword(password, confirmPwd) {    
+    let isMatch
+    if(password.value == confirmPwd.value && password.value != ''){
+        isMatch = true;
+        console.log(`Password =${password.value} Confirm = ${confirmPwd.value}`)
+        
+    }
+    if(password.value != confirmPwd.value){
+        isMatch = false;
+        console.log('no match')
+        console.log(`Password =${password.value} Confirm = ${confirmPwd.value}`)
+    }
+    return isMatch
+}
 
 
 renderForm()

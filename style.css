@@ -38,14 +38,17 @@
 }
 .formInput:invalid:focus {
    background-color: rgba(255, 160, 160, 0.877);
-   outline: none;
    color: black;
 }
-.formInput:valid {
+.formInput:valid:focus {
     color: black;
+    border: none;
 }
 .colorRed {
     color: red;
+}
+.redBorder {
+    border: solid 1px red;
 }
 .colorGreen {
     color: green;
@@ -62,6 +65,6 @@
 .pwdErrorDiv {
     padding: 5px;
     grid-column: 2/3;
-    background-color: aliceblue;
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 7px;
 }
