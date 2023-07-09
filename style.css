@@ -3,3 +3,53 @@
     padding: 0;
     box-sizing: border-box;
 }
+.container {
+    display: flex;
+    justify-content: center;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: grey;
+    padding: 20px;
+    margin: 50px;
+    border-radius: 7px;
+}
+.formDiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+}
+.formLabel {
+    grid-column: 1/2;
+    height: 20px;
+    padding: 10px;
+}
+
+.formInput {
+    grid-column: 2/3;
+    border: none;
+    border-radius: 7px;
+    height: 20px;
+    max-width: 150px;
+    padding: 10px;
+    margin: 10px;
+}
+.formInput:invalid:focus {
+   background-color: rgba(255, 160, 160, 0.877);
+   outline: none;
+   color: black;
+}
+.formInput:valid {
+    color: black;
+}
+.colorRed {
+    color: red;
+}
+.colorGreen {
+    color: green;
+}
+.hide {
+    display: none;
+}
