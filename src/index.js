@@ -27,10 +27,12 @@ function checkForContent(input, boolean) {
     } else {
         boolean = true
     }
-    input.onfocus = function() {
-        checkOnBlur(input)
-        
+    if(!boolean) {
+        input.onblur = function() {
+            addBorderToEmpty(input)            
+        }
     }
+    
     console.log(boolean)
     return boolean
 }
@@ -82,7 +84,7 @@ function renderEmail() {
     emailInput.placeholder = 'Email'
 
     //validate input content
-    
+    checkForContent(emailInput, emailIsValid)
     
     return emailIsValid
 }
@@ -209,7 +211,7 @@ confirmPswdInput.addEventListener('input', function() {
     if (matchPassword(password, confirmPswdInput)) {
         errorConfirmPswd.classList.add('hide')
     } else {
-        errorConfirmPswd.classList.remove('hide')
+        errorConfirmPswd.classList.remove('hide')   
     }
 })
 confirmPswdInput.onblur = function() {
@@ -219,7 +221,7 @@ confirmPswdInput.onblur = function() {
         confirmPswdInput.classList.remove('redBorder')
     }
     errorConfirmPswd.classList.add('hide')
-}
+    }
 }
 
 const renderForm = () => {
@@ -255,17 +257,31 @@ const renderForm = () => {
         emailIsValid = checkForContent(emailInput, emailIsValid)
         const passwordInput = document.getElementById('passwordInput')
         pswdValid = checkRequired(passwordInput)
-        console.log(checkRequired(passwordInput))
+        console.log(checkRequired(emailInput))
+        const confirmPswdInput = document.getElementById('confirmPswdInput')
+        let confirmPswdIsValid 
+        if (!pswdValid) {
+            confirmPswdIsValid = false
+       } else {
+        confirmPswdIsValid = true
+       }
         //check name
-      console.log(nameIsValid, emailIsValid, pswdValid)
+      console.log(nameIsValid, emailIsValid, pswdValid, confirmPswdIsValid)
         if (!nameIsValid) {
             messages.push('Name field empty')
+            addBorderToEmpty(nameInput)
         }
         if (!emailIsValid) {
             messages.push('Email field empty')
+            addBorderToEmpty(emailInput)
         }    
         if (!pswdValid) {
-            messages.push('Password or confirm is not valid')
+            messages.push('Password is not valid')
+            addBorderToEmpty(passwordInput)
+        }
+        if (!confirmPswdIsValid) {
+            messages.push('Confirm password is not valid')
+            addBorderToEmpty(confirmPswdInput)
         }
         //check email
         if (messages.length > 0 ) {
@@ -286,7 +302,7 @@ function hideTxt(el, requiredChar) {
     }    
 }
 
-const checkOnBlur = (input) => {
+const addBorderToEmpty = (input) => {
     if (input.value == '') {
         input.classList.add('redBorder')
     } else {
