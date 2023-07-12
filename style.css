@@ -36,6 +36,10 @@
     padding: 10px;
     margin: 10px;
 }
+.formInput:focus {
+    border: none;
+    outline: none;
+}
 .formInput:invalid:focus {
    background-color: rgba(255, 160, 160, 0.877);
    color: black;

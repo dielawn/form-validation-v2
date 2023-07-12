@@ -1,4 +1,4 @@
-const cities = require('cities');
+
 const containerDiv = document.getElementById('container')
 
 class SuperElement {
@@ -66,9 +66,9 @@ function renderName() {
     nameInput.type = 'text'
     nameInput.setAttribute('required', 'true')
     nameInput.placeholder = 'Full Name'
+    nameInput.setCustomValidity
 
-    //validate input content
-    
+    //validate input content    
     nameIsValid = renderStatusStyle(nameInput, nameIsValid)
     return nameIsValid
 }
@@ -132,6 +132,7 @@ const passwordInput = new SuperElement(passwordDiv, 'input', '', 'formInput', 'p
 passwordInput.name = 'password'
 passwordInput.type = 'password'
 passwordInput.placeholder = 'Password'
+passwordInput.minLength = 8
 passwordInput.setAttribute('required', 'true')
  //password requiements
 
@@ -166,6 +167,7 @@ passwordInput.onfocus = function() {
             checkRequired(passwordInput)
             if (checkRequired(passwordInput)) {
                 errorDiv.classList.add('hide')
+                passwordInput.classList.remove('redBorder')
             } else {
                 errorDiv.classList.remove('hide')
             }
@@ -210,6 +212,7 @@ confirmPswdInput.onfocus = function() {
 confirmPswdInput.addEventListener('input', function() {
     if (matchPassword(password, confirmPswdInput)) {
         errorConfirmPswd.classList.add('hide')
+        errorConfirmPswd.classList.remove('redBorder')
     } else {
         errorConfirmPswd.classList.remove('hide')   
     }
@@ -267,28 +270,28 @@ const renderForm = () => {
        }
         //check name
       console.log(nameIsValid, emailIsValid, pswdValid, confirmPswdIsValid)
-        if (!nameIsValid) {
-            messages.push('Name field empty')
-            addBorderToEmpty(nameInput)
-        }
-        if (!emailIsValid) {
-            messages.push('Email field empty')
-            addBorderToEmpty(emailInput)
-        }    
-        if (!pswdValid) {
-            messages.push('Password is not valid')
-            addBorderToEmpty(passwordInput)
-        }
-        if (!confirmPswdIsValid) {
-            messages.push('Confirm password is not valid')
-            addBorderToEmpty(confirmPswdInput)
-        }
-        //check email
-        if (messages.length > 0 ) {
-            e.preventDefault()
-            errorDiv.innerText = messages.join(', ')
-        }
-        console.log(messages);
+        // if (!nameIsValid) {
+        //     messages.push('Name field empty')
+        //     addBorderToEmpty(nameInput)
+        // }
+        // if (!emailIsValid) {
+        //     messages.push('Email field empty')
+        //     addBorderToEmpty(emailInput)
+        // }    
+        // if (!pswdValid) {
+        //     messages.push('Password is not valid')
+        //     addBorderToEmpty(passwordInput)
+        // }
+        // if (!confirmPswdIsValid) {
+        //     messages.push('Confirm password is not valid')
+        //     addBorderToEmpty(confirmPswdInput)
+        // }
+        // //check email
+        // if (messages.length > 0 ) {
+        //     e.preventDefault()
+        //     errorDiv.innerText = messages.join(', ')
+        // }
+        // console.log(messages);
     })
 }
 
@@ -310,6 +313,22 @@ const addBorderToEmpty = (input) => {
     }
     
 }
+
+function checkValidity() {
+    const formInputs = document.querySelectorAll('.formInput')
+
+    formInputs.forEach(input => {
+        console.log(input)
+        const inputValue = input.value.trim()
+        if (input.hasAttribute('required') && inputValue === '') {
+            input.setCustomValidity('This field is required.')
+            addBorderToEmpty(input)
+            input.reportValidity()
+        }
+    })
+
+}
+
 
 function checkRequired(password) {   
 
@@ -387,4 +406,4 @@ function matchPassword(password, confirmPwd) {
 
 
 renderForm()
-
+checkValidity()
