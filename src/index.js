@@ -168,6 +168,7 @@ passwordInput.onfocus = function() {
             if (checkRequired(passwordInput)) {
                 errorDiv.classList.add('hide')
                 passwordInput.classList.remove('redBorder')
+                passwordInput.classList.remove('invalid')
             } else {
                 errorDiv.classList.remove('hide')
             }
@@ -255,12 +256,12 @@ const renderForm = () => {
             prevError.remove()
         }
 
-        const errorDiv = new SuperElement(form, 'div', '', 'errorDiv', 'sbmtError').element
-        nameIsValid = checkForContent(nameInput, nameIsValid)
-        emailIsValid = checkForContent(emailInput, emailIsValid)
-        const passwordInput = document.getElementById('passwordInput')
-        pswdValid = checkRequired(passwordInput)
-        console.log(checkRequired(emailInput))
+        // const errorDiv = new SuperElement(form, 'div', '', 'errorDiv', 'sbmtError').element
+        // nameIsValid = checkForContent(nameInput, nameIsValid)
+        // emailIsValid = checkForContent(emailInput, emailIsValid)
+        // const passwordInput = document.getElementById('passwordInput')
+        // pswdValid = checkRequired(passwordInput)
+        checkValidity()
         const confirmPswdInput = document.getElementById('confirmPswdInput')
         let confirmPswdIsValid 
         if (!pswdValid) {
@@ -269,29 +270,29 @@ const renderForm = () => {
         confirmPswdIsValid = true
        }
         //check name
-      console.log(nameIsValid, emailIsValid, pswdValid, confirmPswdIsValid)
-        // if (!nameIsValid) {
-        //     messages.push('Name field empty')
-        //     addBorderToEmpty(nameInput)
-        // }
-        // if (!emailIsValid) {
-        //     messages.push('Email field empty')
-        //     addBorderToEmpty(emailInput)
-        // }    
-        // if (!pswdValid) {
-        //     messages.push('Password is not valid')
-        //     addBorderToEmpty(passwordInput)
-        // }
-        // if (!confirmPswdIsValid) {
-        //     messages.push('Confirm password is not valid')
-        //     addBorderToEmpty(confirmPswdInput)
-        // }
-        // //check email
-        // if (messages.length > 0 ) {
-        //     e.preventDefault()
-        //     errorDiv.innerText = messages.join(', ')
-        // }
-        // console.log(messages);
+    //   console.log(nameIsValid, emailIsValid, pswdValid, confirmPswdIsValid)
+    //     if (!nameIsValid) {
+    //         messages.push('Name field empty')
+    //         addBorderToEmpty(nameInput)
+    //     }
+    //     if (!emailIsValid) {
+    //         messages.push('Email field empty')
+    //         addBorderToEmpty(emailInput)
+    //     }    
+    //     if (!pswdValid) {
+    //         messages.push('Password is not valid')
+    //         addBorderToEmpty(passwordInput)
+    //     }
+    //     if (!confirmPswdIsValid) {
+    //         messages.push('Confirm password is not valid')
+    //         addBorderToEmpty(confirmPswdInput)
+    //     }
+    //     //check email
+    //     if (messages.length > 0 ) {
+    //         e.preventDefault()
+    //         errorDiv.innerText = messages.join(', ')
+    //     }
+    //     console.log(messages);
     })
 }
 
@@ -406,4 +407,4 @@ function matchPassword(password, confirmPwd) {
 
 
 renderForm()
-checkValidity()
+

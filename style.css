@@ -40,10 +40,12 @@
     border: none;
     outline: none;
 }
+
 .formInput:invalid:focus {
    background-color: rgba(255, 160, 160, 0.877);
    color: black;
 }
+
 .formInput:valid:focus {
     color: black;
     border: none;
